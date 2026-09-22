@@ -1,0 +1,51 @@
+name: DracoSentry Continuous Integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  preflight-and-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify Contract Syntax & Header
+        run: |
+          python -m py_compile contracts/DracoSentry.py
+          python -m py_compile contracts/DracoVerifierHook.py
+
+      - name: Run Protocol Preflight Verification
+        run: |
+          python verification/run_preflight.py
+
+      - name: Execute Model and AST Security Tests
+        run: |
+          python -c "import tests.test_contract_model as t; t.test_contract_headers_and_sdk_primitives(); t.test_public_methods_disallow_arbitrary_urls(); t.test_fixture_sizes_and_cryptographic_hashes(); t.test_deterministic_precedence_matrix(); print('AST assertions passed!')"
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Typecheck Frontend
+        working-directory: ./frontend
+        run: npm run typecheck
