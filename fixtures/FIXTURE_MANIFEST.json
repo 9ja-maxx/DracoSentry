@@ -1,0 +1,36 @@
+{
+  "manifest_version": "1.0.0",
+  "generated_by": "DracoSentry Protocol Preflight",
+  "artifacts": {
+    "sbom-complete.json": {
+      "path": "fixtures/sbom-complete.json",
+      "sha256": "e5b54ad859fac78d051ef0afd14de452538d8524c6d91d0ffdd1e6530ba74c8a",
+      "package_count": 4,
+      "purpose": "Authoritative base SBOM with 4 declared packages"
+    },
+    "notice-complete.md": {
+      "path": "fixtures/notice-complete.md",
+      "sha256": "4adb9e2995f93b4ec677f740fa75f2a5c4af0e5044525518ac94d8672608a378",
+      "expected_outcome": "VERIFIED_COMPLIANT",
+      "purpose": "Clean third-party notice covering all 4 packages with exact license matches"
+    },
+    "notice-permissive-gap.md": {
+      "path": "fixtures/notice-permissive-gap.md",
+      "sha256": "7b7ce26af806d08bd0f96750984f519c33e42444af57d1df0f6d8db542e26b62",
+      "expected_outcome": "ATTRIBUTION_DEFICIT",
+      "purpose": "Notice omitting scale-crypto (BSD-3-Clause)"
+    },
+    "notice-copyleft-conflict.md": {
+      "path": "fixtures/notice-copyleft-conflict.md",
+      "sha256": "ae2eb16a748b5c12a3e40b97a7d0003e6094975adfa5240b9fe278ca268a094d",
+      "expected_outcome": "HIGH_RISK_LICENSE_VIOLATION",
+      "purpose": "Notice where wyrm-router asserts GPL-3.0-only instead of declared MIT"
+    },
+    "notice-adversarial-injection.md": {
+      "path": "fixtures/notice-adversarial-injection.md",
+      "sha256": "cd832ae205eba4741bf64661aeab0e1020a9d376b7ce8728a54caef9ed5b6c23",
+      "expected_outcome": "ATTRIBUTION_DEFICIT",
+      "purpose": "Hostile prompt injection attempting to force COMPLIANT tokens on omitted packages"
+    }
+  }
+}
