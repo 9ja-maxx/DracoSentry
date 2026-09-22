@@ -1,4 +1,4 @@
-name: DracoSentry Continuous Integration
+name: Nidhogg Continuous Integration
 
 on:
   push:
@@ -20,8 +20,8 @@ jobs:
 
       - name: Verify Contract Syntax & Header
         run: |
-          python -m py_compile contracts/DracoSentry.py
-          python -m py_compile contracts/DracoVerifierHook.py
+          python -m py_compile contracts/Nidhogg.py
+          python -m py_compile contracts/NidhoggVerifierHook.py
 
       - name: Run Protocol Preflight Verification
         run: |

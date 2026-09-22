@@ -1,7 +1,7 @@
-# DracoSentry Protocol
+# Nidhogg Protocol
 
 <p align="center">
-  <img src="frontend/public/draco-logo.svg" width="140" alt="DracoSentry Logo" />
+  <img src="frontend/public/draco-logo.svg" width="140" alt="Nidhogg Logo" />
 </p>
 
 <p align="center">
@@ -20,11 +20,11 @@
 
 ## 1. Executive Protocol Overview
 
-**DracoSentry** is an autonomous software supply chain arbiter and provenance certification protocol implemented as an Intelligent Contract on GenLayer. It resolves an authentic, high-stakes dilemma in open-source and enterprise software distribution: **how can software consumers independently verify that a vendor's third-party attribution declarations (`THIRD_PARTY_NOTICES.md`) faithfully satisfy the copyright and license obligations of every package in its Software Bill of Materials (`sbom.json`) without trusting vendor self-certifications?**
+**Nidhogg** is an autonomous software supply chain arbiter and provenance certification protocol implemented as an Intelligent Contract on GenLayer. Named after the legendary Norse dragon that gnaws at the roots of Yggdrasil, Nidhogg stands watch over the roots of the software dependency tree. It resolves an authentic, high-stakes dilemma in open-source and enterprise software distribution: **how can software consumers independently verify that a vendor's third-party attribution declarations (`THIRD_PARTY_NOTICES.md`) faithfully satisfy the copyright and license obligations of every package in its Software Bill of Materials (`sbom.json`) without trusting vendor self-certifications?**
 
 In traditional supply chains, compliance scans are either performed by closed-source centralized SaaS vendors (FOSSA, Snyk, Black Duck) or rely on unverified publisher claims. These mechanisms suffer from unilateral manipulation, silent omission of copyleft obligations, and lack of immutability.
 
-DracoSentry bridges cryptographic data integrity with GenLayer's non-deterministic validator consensus:
+Nidhogg bridges cryptographic data integrity with GenLayer's non-deterministic validator consensus:
 1. **Unforgeable Source Binding:** Derives canonical Raw GitHub URLs from immutable 40-character Git commit hashes, preventing URL spoofing and Server-Side Request Forgery (SSRF).
 2. **Cryptographic Pre-Gating:** Validators independently fetch raw artifact bytes and verify their SHA-256 digests against registered commitments before any AI prompt is executed.
 3. **Quarantined Micro-Classification:** The LLM is confined to package-by-package semantic evaluation under strict prompt-injection defenses.
@@ -36,8 +36,8 @@ DracoSentry bridges cryptographic data integrity with GenLayer's non-determinist
 
 ```
                                   ╔═════════════════════════════════════════╗
-                                  ║         DRACOSENTRY GUARDIAN           ║
-                                  ║    "The Wyrm of Release Provenance"     ║
+                                  ║            NIDHOGG GUARDIAN             ║
+                                  ║ "The Dragon at the Dependency Root"     ║
                                   ╚═════════════════════════════════════════╝
                                                       │
                        ┌──────────────────────────────┴──────────────────────────────┐
@@ -107,7 +107,7 @@ flowchart TD
     classDef failure fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#f8fafc;
     classDef warning fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
 
-    User([Maintainer / CI Pipeline]):::dragon -->|register_release_audit| Contract[DracoSentry Contract]:::dragon
+    User([Maintainer / CI Pipeline]):::dragon -->|register_release_audit| Contract[Nidhogg Contract]:::dragon
     Contract -->|Status: REGISTERED| OnChainState[(GenLayer State Store)]:::dragon
 
     User -->|execute_consensus_assessment| ConsensusEngine[GenLayer Consensus Engine]:::dragon
@@ -181,10 +181,10 @@ Terminal verdicts are derived through deterministic on-chain Python logic:
 
 ## 4. Intelligent Contract Reference
 
-### Primary Contract: `contracts/DracoSentry.py` (220 LOC)
+### Primary Contract: `contracts/Nidhogg.py` (220 LOC)
 - **Target Network:** GenLayer StudioNet (Chain ID: `61997`)
 - **Pinned Runner:** `py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6` (v0.2.16)
-- **Source SHA-256:** `5370425d1e30c7803448b9d0b6f04b09683c70b5a1a69c4bc259efc2aba7b551`
+- **Source SHA-256:** `ab74fd19738364a3aa118def050764181c9f5baf72d1ee897bcc03f552e4b144`
 
 #### Public Entry Points
 
@@ -196,14 +196,14 @@ Terminal verdicts are derived through deterministic on-chain Python logic:
 | `get_audit_dossier` | View | `audit_id: u256` | `str` (JSON) | Retrieves complete immutable release dossier, compliance score, and observation state. |
 | `get_total_audits` | View | *None* | `str` | Returns cumulative count of registered audits. |
 
-### Downstream Gatekeeper: `contracts/DracoVerifierHook.py`
+### Downstream Gatekeeper: `contracts/NidhoggVerifierHook.py`
 Provides an on-chain gatekeeper interface for package registries, token contracts, and release bounty dispensers to query `is_release_certified(audit_id) -> bool` before unlocking funds.
 
 ---
 
 ## 5. Test Suite & Static Invariants
 
-DracoSentry features a comprehensive multi-tier test harness:
+Nidhogg features a comprehensive multi-tier test harness:
 
 ### 5.1 Direct Mode Tests (`tests/test_contract_direct.py`)
 Executed on GenLayer's `gltest.direct` runtime with mocked HTTPS and LLM environments:
@@ -226,10 +226,10 @@ Executed on GenLayer's `gltest.direct` runtime with mocked HTTPS and LLM environ
 ## 6. Repository Layout
 
 ```
-DracoSentry/
+Nidhogg/
 ├── contracts/
-│   ├── DracoSentry.py            # Primary Intelligent Contract (220 LOC)
-│   └── DracoVerifierHook.py      # Downstream Compliance Gatekeeper Contract
+│   ├── Nidhogg.py                # Primary Intelligent Contract (220 LOC)
+│   └── NidhoggVerifierHook.py    # Downstream Compliance Gatekeeper Contract
 ├── fixtures/
 │   ├── FIXTURE_MANIFEST.json     # Cryptographic commitment registry
 │   ├── sbom-complete.json        # Base SPDX 2.3 SBOM manifest (4 packages)
@@ -253,7 +253,7 @@ DracoSentry/
 │   └── test_contract_model.py    # Static AST safety & precedence tests (52 LOC)
 ├── verification/
 │   ├── PREDEPLOY_AUDIT.md        # Pre-deployment audit checklist & gate status
-│   ├── DRAGON_LIFECYCLE.md       # 20-step live lifecycle verification matrix
+│   ├── NIDHOGG_LIFECYCLE.md      # 20-step live lifecycle verification matrix
 │   └── run_preflight.py          # Automated preflight verification engine
 ├── docs/
 │   ├── ARCHITECTURE.md           # In-depth architectural specification
@@ -269,10 +269,10 @@ DracoSentry/
 
 ## 7. StudioNet Deployment Instructions
 
-To deploy DracoSentry on GenLayer StudioNet:
+To deploy Nidhogg on GenLayer StudioNet:
 1. Open the [GenLayer Studio IDE](https://studio.genlayer.com).
-2. Create a new contract file: `DracoSentry.py`.
-3. Copy and paste the contents of [`contracts/DracoSentry.py`](contracts/DracoSentry.py).
+2. Create a new contract file: `Nidhogg.py`.
+3. Copy and paste the contents of [`contracts/Nidhogg.py`](contracts/Nidhogg.py).
 4. Verify the header dependency:
    ```python
    # v0.2.16
@@ -286,5 +286,5 @@ To deploy DracoSentry on GenLayer StudioNet:
 ## 8. Author & Attribution
 
 - **Protocol Architect:** `9ja_maxx`
-- **Repository:** [`https://github.com/9ja-maxx/DracoSentry`](https://github.com/9ja-maxx/DracoSentry)
+- **Repository:** [`https://github.com/9ja-maxx/Nidhogg`](https://github.com/9ja-maxx/Nidhogg)
 - **License:** MIT
