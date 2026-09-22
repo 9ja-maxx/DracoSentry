@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0.0",
-  "generated_by": "DracoSentry Protocol Preflight",
+  "generated_by": "Nidhogg Protocol Preflight",
   "artifacts": {
     "sbom-complete.json": {
       "path": "fixtures/sbom-complete.json",

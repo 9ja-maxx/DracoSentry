@@ -50,7 +50,7 @@ interface AuditRecord {
 }
 
 const previewPackages: PackageEntry[] = [
-  { name: 'draco-core', license: 'Apache-2.0', status: 'COMPLIANT' },
+  { name: 'nidhogg-core', license: 'Apache-2.0', status: 'COMPLIANT' },
   { name: 'flame-lexer', license: 'MIT', status: 'COMPLIANT' },
   { name: 'scale-crypto', license: 'BSD-3-Clause', status: 'COMPLIANT' },
   { name: 'wyrm-router', license: 'MIT', status: 'COMPLIANT' },
@@ -219,7 +219,7 @@ export default function App() {
       {/* Top Header */}
       <header>
         <button className="brand-container" onClick={() => setActiveTab('explorer')}>
-          <img src="/draco-logo.svg" alt="Nidhogg Logo" className="brand-logo" />
+          <img src="/nidhogg-logo.svg" alt="Nidhogg Logo" className="brand-logo" />
           <div>
             <div className="brand-title">
               NID<span>HOGG</span>
@@ -771,7 +771,7 @@ export default function App() {
       {/* Footer */}
       <footer>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <img src="/draco-logo.svg" alt="logo" style={{ width: '18px', height: '18px' }} />
+          <img src="/nidhogg-logo.svg" alt="logo" style={{ width: '18px', height: '18px' }} />
           <span>
             Nidhogg Protocol · Developed by <strong>9ja_maxx</strong>
           </span>

@@ -1,7 +1,7 @@
 # Nidhogg Protocol
 
 <p align="center">
-  <img src="frontend/public/draco-logo.svg" width="140" alt="Nidhogg Logo" />
+  <img src="frontend/public/nidhogg-logo.svg" width="140" alt="Nidhogg Logo" />
 </p>
 
 <p align="center">
@@ -238,7 +238,7 @@ Nidhogg/
 │   ├── notice-copyleft-conflict.md # Notice asserting conflicting copyleft license
 │   └── notice-adversarial-injection.md # Hostile prompt injection fixture
 ├── frontend/
-│   ├── public/draco-logo.svg     # High-resolution vector dragon crest
+│   ├── public/nidhogg-logo.svg   # High-resolution vector dragon crest
 │   ├── src/
 │   │   ├── App.tsx               # Classy React 19 / genlayer-js DApp (480 LOC)
 │   │   ├── deployment.json       # Target contract address and source SHA-256 seal
