@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Environment and local secrets
+.env
+.env.local
+.env.*.local
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Verification and temp logs
+*.log
+.playwright-mcp/
