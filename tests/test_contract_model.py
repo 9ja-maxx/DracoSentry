@@ -4,7 +4,7 @@ import hashlib
 import json
 
 ROOT = Path(__file__).resolve().parents[1]
-SOURCE_PATH = ROOT / "contracts" / "DracoSentry.py"
+SOURCE_PATH = ROOT / "contracts" / "Nidhogg.py"
 SOURCE = SOURCE_PATH.read_text(encoding="utf-8")
 
 
@@ -71,3 +71,16 @@ def test_deterministic_precedence_matrix():
     assert derive_model_verdict("DIGEST_MISMATCH", []) == "TAMPER_DETECTED"
     assert derive_model_verdict("NETWORK_UNREACHABLE", []) == "AUDIT_RETRYABLE"
     assert derive_model_verdict("INVALID_PAYLOAD", []) == "MALFORMED_INPUT"
+
+
+if __name__ == "__main__":
+    print("[*] Running Nidhogg Contract Model Verification...")
+    test_contract_headers_and_sdk_primitives()
+    print("  [+] test_contract_headers_and_sdk_primitives passed")
+    test_public_methods_disallow_arbitrary_urls()
+    print("  [+] test_public_methods_disallow_arbitrary_urls passed")
+    test_fixture_sizes_and_cryptographic_hashes()
+    print("  [+] test_fixture_sizes_and_cryptographic_hashes passed")
+    test_deterministic_precedence_matrix()
+    print("  [+] test_deterministic_precedence_matrix passed")
+    print("[OK] All 4 contract model tests passed.")

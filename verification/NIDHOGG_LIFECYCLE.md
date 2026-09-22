@@ -1,6 +1,6 @@
-# DracoSentry Live Lifecycle Verification Matrix
+# Nidhogg Live Lifecycle Verification Matrix
 
-This matrix documents the 18 distinct lifecycle execution paths designed for StudioNet live testing upon deployment:
+This matrix documents the 20 distinct lifecycle execution paths designed for StudioNet live testing upon deployment:
 
 | # | Phase / Scenario | Expected Contract Verdict | Security Invariant Verified |
 |---:|:---|:---|:---|

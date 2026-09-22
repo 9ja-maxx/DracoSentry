@@ -1,4 +1,4 @@
-# DracoSentry Pre-Deployment Audit
+# Nidhogg Pre-Deployment Audit
 
 ## Gate Verification Status
 
@@ -18,13 +18,13 @@
   12. Unauthorized outsider remediation rejection.
 
 ## Cryptographic Commit & Source Hash
-- **Contract Source:** `contracts/DracoSentry.py`
-- **Source SHA-256:** `5370425d1e30c7803448b9d0b6f04b09683c70b5a1a69c4bc259efc2aba7b551`
+- **Contract Source:** `contracts/Nidhogg.py`
+- **Source SHA-256:** `ab74fd19738364a3aa118def050764181c9f5baf72d1ee897bcc03f552e4b144`
 - **GenLayer Runner:** `py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6` (v0.2.16)
 - **Target Network:** GenLayer StudioNet (Chain ID: `61997`)
 
 ## Verified Fixture Commit
-- **Repository:** `9ja-maxx/DracoSentry`
+- **Repository:** `9ja-maxx/Nidhogg`
 - **Artifacts:**
   - `fixtures/sbom-complete.json`: `e5b54ad859fac78d051ef0afd14de452538d8524c6d91d0ffdd1e6530ba74c8a`
   - `fixtures/notice-complete.md`: `4adb9e2995f93b4ec677f740fa75f2a5c4af0e5044525518ac94d8672608a378`

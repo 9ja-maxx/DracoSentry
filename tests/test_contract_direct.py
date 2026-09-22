@@ -8,14 +8,14 @@ from unittest.mock import patch
 from gltest.direct import VMContext, create_address, deploy_contract
 
 ROOT = Path(__file__).resolve().parents[1]
-CONTRACT_PATH = ROOT / "contracts" / "DracoSentry.py"
+CONTRACT_PATH = ROOT / "contracts" / "Nidhogg.py"
 COMMIT_A = "1b4fa7cd039c3b62d5444c2b06de19d98f6a0158"
 COMMIT_B = "2c5eb8de149d4c73e6555d3c17ef2ae09f7b1269"
 POLICY = "Every SBOM package must have matching copyright attribution and declared license in the third-party notice."
 
 
-def deploy_sentry():
-    """Deploy DracoSentry within direct VMContext and set up module imports."""
+def deploy_nidhogg():
+    """Deploy Nidhogg within direct VMContext and set up module imports."""
     creator, outsider = create_address("creator"), create_address("outsider")
     vm = VMContext(creator)
     with patch("os.unlink", lambda _path: None):
@@ -84,9 +84,9 @@ def register_audit(vm, contract, commit=COMMIT_A, custom_notice_sha=None):
     with vm.activate():
         sync_vm(vm, contract)
         return contract.register_release_audit(
-            "Draco Release v1.0.0",
+            "Nidhogg Release v1.0.0",
             "9ja-maxx",
-            "DracoSentry",
+            "Nidhogg",
             commit,
             "fixtures/sbom-complete.json",
             "fixtures/notice-complete.md",
@@ -104,11 +104,11 @@ def install_mocks(vm, token_line="COMPLIANT|COMPLIANT|COMPLIANT|COMPLIANT", cand
 
     vm.clear_mocks()
     vm.mock_web(
-        r"https://raw\.githubusercontent\.com/9ja-maxx/DracoSentry/.*fixtures/sbom-complete\.json",
+        r"https://raw\.githubusercontent\.com/9ja-maxx/Nidhogg/.*fixtures/sbom-complete\.json",
         {"status": 200, "body": sbom_bytes},
     )
     vm.mock_web(
-        r"https://raw\.githubusercontent\.com/9ja-maxx/DracoSentry/.*fixtures/notice-complete\.md",
+        r"https://raw\.githubusercontent\.com/9ja-maxx/Nidhogg/.*fixtures/notice-complete\.md",
         {"status": 200, "body": notice_bytes},
     )
     vm.mock_llm(r"(?s).*Return exactly one line containing pipe-delimited uppercase tokens.*", token_line)
@@ -116,7 +116,7 @@ def install_mocks(vm, token_line="COMPLIANT|COMPLIANT|COMPLIANT|COMPLIANT", cand
 
 def test_registration_validation_and_duplicate_rejection():
     """Test parameter sanitization, SSRF path prevention, and duplicate release prevention."""
-    vm, contract, _, _ = deploy_sentry()
+    vm, contract, _, _ = deploy_nidhogg()
     sbom_bytes, notice_bytes = load_fixture_bytes()
     sd = hashlib.sha256(sbom_bytes).hexdigest()
     nd = hashlib.sha256(notice_bytes).hexdigest()
@@ -137,7 +137,7 @@ def test_registration_validation_and_duplicate_rejection():
     assert audit_id == 0
 
     record = json.loads(contract.get_audit_dossier(0))
-    assert record["repository"] == "9ja-maxx/DracoSentry"
+    assert record["repository"] == "9ja-maxx/Nidhogg"
     assert record["commit"] == COMMIT_A
     assert record["status"] == "REGISTERED"
 
@@ -145,7 +145,7 @@ def test_registration_validation_and_duplicate_rejection():
     with vm.activate():
         sync_vm(vm, contract)
         assert contract.register_release_audit(
-            "Dup", "9ja-maxx", "DracoSentry", COMMIT_A, "fixtures/sbom-complete.json",
+            "Dup", "9ja-maxx", "Nidhogg", COMMIT_A, "fixtures/sbom-complete.json",
             "fixtures/notice-complete.md", sd, nd, POLICY
         ) == "DUPLICATE_RELEASE_REGISTRATION"
         assert contract.get_total_audits() == "1"
@@ -153,7 +153,7 @@ def test_registration_validation_and_duplicate_rejection():
 
 def test_happy_path_provenance_and_validator_reexecution():
     """Verify clean full evaluation, consensus re-execution, 100% compliance score, and replay block."""
-    vm, contract, _, _ = deploy_sentry()
+    vm, contract, _, _ = deploy_nidhogg()
     audit_id = register_audit(vm, contract)
     install_mocks(vm, "COMPLIANT|COMPLIANT|COMPLIANT|COMPLIANT")
 
@@ -178,7 +178,7 @@ def test_happy_path_provenance_and_validator_reexecution():
 
 def test_cryptographic_digest_tamper_detection():
     """Verify that tampering with either artifact digest causes immediate TAMPER_DETECTED."""
-    vm, contract, _, _ = deploy_sentry()
+    vm, contract, _, _ = deploy_nidhogg()
     tampered_notice_sha = "0" * 64
     audit_id = register_audit(vm, contract, custom_notice_sha=tampered_notice_sha)
     install_mocks(vm)
@@ -196,7 +196,7 @@ def test_cryptographic_digest_tamper_detection():
 
 def test_permissive_gap_and_copyleft_conflict():
     """Verify license deficit and high-risk copyleft conflict derivations."""
-    vm, contract, _, _ = deploy_sentry()
+    vm, contract, _, _ = deploy_nidhogg()
     audit_id = register_audit(vm, contract)
     install_mocks(vm, "COMPLIANT|PERMISSIVE_GAP|COMPLIANT|COMPLIANT")
 
@@ -205,7 +205,7 @@ def test_permissive_gap_and_copyleft_conflict():
         assert contract.execute_consensus_assessment(audit_id) == "ATTRIBUTION_DEFICIT"
 
     # Copyleft conflict takes higher precedence
-    vm2, contract2, _, _ = deploy_sentry()
+    vm2, contract2, _, _ = deploy_nidhogg()
     audit2 = register_audit(vm2, contract2)
     install_mocks(vm2, "COMPLIANT|PERMISSIVE_GAP|COPYLEFT_CONFLICT|COMPLIANT")
 
@@ -221,7 +221,7 @@ def test_malformed_model_output_fails_closed():
         "Here is the result:\nCOMPLIANT|COMPLIANT|COMPLIANT|COMPLIANT",  # multi-line prose
         "COMPLIANT|COMPLIANT|UNKNOWN_TOKEN|COMPLIANT",  # invalid token
     ):
-        vm, contract, _, _ = deploy_sentry()
+        vm, contract, _, _ = deploy_nidhogg()
         audit_id = register_audit(vm, contract)
         install_mocks(vm, bad_output)
         with vm.activate():
@@ -231,7 +231,7 @@ def test_malformed_model_output_fails_closed():
 
 def test_validator_rejects_consequential_token_disagreement():
     """Verify that validator node rejects consensus if its classification differs from leader."""
-    vm, contract, _, _ = deploy_sentry()
+    vm, contract, _, _ = deploy_nidhogg()
     audit_id = register_audit(vm, contract)
     install_mocks(vm, "COMPLIANT|COMPLIANT|COMPLIANT|COMPLIANT")
 
@@ -250,7 +250,7 @@ def test_validator_rejects_consequential_token_disagreement():
 
 def test_immutable_remediation_linking():
     """Test creator-authenticated remediation linking between audits across different commits."""
-    vm, contract, creator, outsider = deploy_sentry()
+    vm, contract, creator, outsider = deploy_nidhogg()
     first_audit = register_audit(vm, contract, COMMIT_A)
     second_audit = register_audit(vm, contract, COMMIT_B)
 

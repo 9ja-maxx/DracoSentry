@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-DracoSentry Preflight Verification Engine
-========================================
+Nidhogg Preflight Verification Engine
+=====================================
 Validates repository integrity, static safety invariants, fixture commitments,
 and contract compilation before testnet deployment.
 """
@@ -12,16 +12,16 @@ import json
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-CONTRACT_FILE = ROOT / "contracts" / "DracoSentry.py"
+CONTRACT_FILE = ROOT / "contracts" / "Nidhogg.py"
 MANIFEST_FILE = ROOT / "fixtures" / "FIXTURE_MANIFEST.json"
 
 
 def check_contract_integrity() -> str:
     print("[*] Checking Intelligent Contract source...")
     if not CONTRACT_FILE.exists():
-        print("[-] FAILED: DracoSentry.py does not exist.")
+        print("[-] FAILED: Nidhogg.py does not exist.")
         sys.exit(1)
-    
+
     code = CONTRACT_FILE.read_text(encoding="utf-8")
     if not code.startswith("# v0.2.16"):
         print("[-] FAILED: Missing official GenLayer runner header.")
@@ -44,7 +44,7 @@ def check_fixture_manifest():
         if not art_path.exists():
             print(f"[-] FAILED: Missing artifact {meta['path']}")
             sys.exit(1)
-        
+
         computed = hashlib.sha256(art_path.read_bytes()).hexdigest()
         if computed != meta["sha256"]:
             print(f"[-] FAILED: Digest mismatch for {name}. Expected {meta['sha256']}, got {computed}")
@@ -56,7 +56,7 @@ def check_fixture_manifest():
 
 if __name__ == "__main__":
     print("=" * 60)
-    print("    DRACOSENTRY PROTOCOL PREFLIGHT AUDIT")
+    print("    NIDHOGG PROTOCOL PREFLIGHT AUDIT")
     print("=" * 60)
     contract_sha = check_contract_integrity()
     check_fixture_manifest()
