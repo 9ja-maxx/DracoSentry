@@ -1,4 +1,4 @@
-# DracoSentry Architecture & Technical Design
+# Nidhogg Architecture & Technical Design
 
 ## 1. System Philosophy & Purpose
 
@@ -8,7 +8,7 @@ Historically, this verification has been:
 1. **Centralized & Private:** Handled by closed-source proprietary software scanning tools (FOSSA, Snyk, Black Duck) that operate as black boxes.
 2. **Easily Forged:** Software distributors can claim compliance without public verification, or selectively omit problematic copyleft packages.
 
-**DracoSentry** solves this by establishing a decentralized, unalterable release notarization protocol on GenLayer.
+**Nidhogg** solves this by establishing a decentralized, unalterable release notarization protocol on GenLayer.
 
 ---
 
@@ -19,7 +19,7 @@ Historically, this verification has been:
        │
        ▼ (register_release_audit)
 ┌─────────────────────────────────────────────────────────────┐
-│                    DracoSentry Contract                     │
+│                      Nidhogg Contract                       │
 │  - Records Repository, Commit SHA, File Paths & Digests     │
 │  - Status: REGISTERED                                       │
 └──────────────────────────────┬──────────────────────────────┘
@@ -55,7 +55,7 @@ Historically, this verification has been:
 
 ## 3. Storage & Gas Considerations
 
-All storage fields in `DracoSentry.py` utilize GenLayer's typed `TreeMap` primitives:
+All storage fields in `Nidhogg.py` utilize GenLayer's typed `TreeMap` primitives:
 - `registrations`: Stores immutable release metadata indexed by `u256` audit ID.
 - `release_commit_registry`: Composite key mapping (`repo|commit|sbom_sha|notice_sha`) prevents duplicate audit spam.
 - `successor_links_plus_one`: One-way pointer linking historical deficit audits to authorized remediation releases.

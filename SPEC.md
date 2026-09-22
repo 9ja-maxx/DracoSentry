@@ -1,10 +1,10 @@
-# DracoSentry Protocol Specification
+# Nidhogg Protocol Specification
 
 ## 1. Executive Summary & Objective
 
-**DracoSentry** is an autonomous software supply chain provenance and license compliance arbiter deployed as an Intelligent Contract on GenLayer. It enables open-source maintainers, package registries, and enterprise consumers to establish cryptographic proof that a pinned software release's third-party attribution declarations (`THIRD_PARTY_NOTICES.md`) completely and faithfully cover every dependency declared in its Software Bill of Materials (`sbom.json`).
+**Nidhogg** is an autonomous software supply chain provenance and license compliance arbiter deployed as an Intelligent Contract on GenLayer. Named after the legendary Norse dragon that gnaws at the roots of Yggdrasil, Nidhogg stands watch over the roots of the software dependency tree. It enables open-source maintainers, package registries, and enterprise consumers to establish cryptographic proof that a pinned software release's third-party attribution declarations (`THIRD_PARTY_NOTICES.md`) completely and faithfully cover every dependency declared in its Software Bill of Materials (`sbom.json`).
 
-By moving attribution audit from subjective vendor claims to decentralized validator consensus, DracoSentry removes unilateral censorship, eliminates phantom compliance attestations, and guarantees unalterable release provenance.
+By moving attribution audit from subjective vendor claims to decentralized validator consensus, Nidhogg removes unilateral censorship, eliminates phantom compliance attestations, and guarantees unalterable release provenance.
 
 ---
 
@@ -27,7 +27,7 @@ By moving attribution audit from subjective vendor claims to decentralized valid
 
 ## 3. License Classification Taxonomy
 
-DracoSentry implements an expressive four-tier semantic classification model:
+Nidhogg implements an expressive four-tier semantic classification model:
 
 | Classification Token | Meaning | Example Licenses | Severity / Action |
 |:---|:---|:---|:---|

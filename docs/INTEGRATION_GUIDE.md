@@ -1,13 +1,13 @@
-# DracoSentry CI/CD Integration Guide
+# Nidhogg CI/CD Integration Guide
 
 Automate release provenance verification in your continuous deployment pipeline before publishing packages to npm, PyPI, or release registries.
 
 ## GitHub Actions Release Gate Example
 
-Add this workflow to `.github/workflows/dracosentry-audit.yml`:
+Add this workflow to `.github/workflows/nidhogg-audit.yml`:
 
 ```yaml
-name: DracoSentry Provenance Verification
+name: Nidhogg Provenance Verification
 
 on:
   release:
@@ -28,10 +28,10 @@ jobs:
           echo "sbom_sha=$SBOM_SHA" >> $GITHUB_OUTPUT
           echo "notice_sha=$NOTICE_SHA" >> $GITHUB_OUTPUT
 
-      - name: Register Release on DracoSentry
+      - name: Register Release on Nidhogg
         env:
           STUDIONET_PRIVATE_KEY: ${{ secrets.STUDIONET_SIGNER_KEY }}
-          DRACOSENTRY_CONTRACT: "0x..."
+          NIDHOGG_CONTRACT: "0x..."
         run: |
           npx ts-node scripts/register-release.ts \
             --commit ${{ github.sha }} \

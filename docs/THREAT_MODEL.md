@@ -1,10 +1,10 @@
-# DracoSentry Threat Model & STRIDE Security Analysis
+# Nidhogg Threat Model & STRIDE Security Analysis
 
-This document outlines the threat modeling, trust assumptions, and adversarial analysis for the DracoSentry protocol.
+This document outlines the threat modeling, trust assumptions, and adversarial analysis for the Nidhogg protocol.
 
 ## 1. Threat Taxonomy (STRIDE)
 
-| Threat Category | Potential Attack Vector | DracoSentry Mitigation Invariant |
+| Threat Category | Potential Attack Vector | Nidhogg Mitigation Invariant |
 |:---|:---|:---|
 | **Spoofing** | Attacker impersonates release creator to hijack remediation. | `link_successor_remediation` strictly enforces `self.creators[original_id].lower() == self._get_sender_address().lower()`. Outsiders are blocked. |
 | **Tampering** | Upstream repository alters notice or SBOM after registration. | Bit-exact SHA-256 validation occurs before model evaluation. Any changed byte triggers immediate `TAMPER_DETECTED`. |
