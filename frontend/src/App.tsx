@@ -3,21 +3,16 @@ import { createClient } from 'genlayer-js';
 import { studionet } from 'genlayer-js/chains';
 import { TransactionHashVariant } from 'genlayer-js/types';
 import {
-  ShieldCheck,
-  AlertTriangle,
   FileCode,
   FileText,
-  GitCommit,
-  Lock,
   Search,
   Wallet,
   ArrowUpRight,
-  RefreshCw,
   CheckCircle2,
   XCircle,
   AlertOctagon,
+  AlertTriangle,
   Flame,
-  Layers,
   Sparkles,
 } from 'lucide-react';
 import deployment from './deployment.json';
@@ -74,7 +69,7 @@ export default function App() {
   const [currentAudit, setCurrentAudit] = useState<AuditRecord | null>(null);
   const [walletAccount, setWalletAccount] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const [statusMessage, setStatusMessage] = useState<string>('Ready on GenLayer StudioNet.');
+  const [statusMessage, setStatusMessage] = useState<string>('Nidhogg Sentinel ready on GenLayer StudioNet.');
 
   const isContractConfigured =
     /^0x[a-fA-F0-9]{40}$/.test(deployment.contractAddress) &&
@@ -142,7 +137,7 @@ export default function App() {
       if (typeof result === 'string' && result !== 'NOT_FOUND') {
         const parsed = JSON.parse(result) as AuditRecord;
         setCurrentAudit(parsed);
-        setStatusMessage(`Loaded finalized Draco audit #${id}`);
+        setStatusMessage(`Loaded finalized Nidhogg audit #${id}`);
       } else {
         setStatusMessage(`Audit #${id} does not exist on-chain.`);
       }
@@ -224,12 +219,12 @@ export default function App() {
       {/* Top Header */}
       <header>
         <button className="brand-container" onClick={() => setActiveTab('explorer')}>
-          <img src="/draco-logo.svg" alt="DracoSentry Logo" className="brand-logo" />
+          <img src="/draco-logo.svg" alt="Nidhogg Logo" className="brand-logo" />
           <div>
             <div className="brand-title">
-              DRACO<span>SENTRY</span>
+              NID<span>HOGG</span>
             </div>
-            <div className="brand-subtitle">Release Provenance Sentinel</div>
+            <div className="brand-subtitle">Dependency Root Sentinel</div>
           </div>
         </button>
 
@@ -332,11 +327,11 @@ export default function App() {
                     <div>
                       <div className="eyebrow">Cryptographic Release Provenance</div>
                       <h1 className="dossier-title">
-                        {currentAudit?.label || 'DracoSentry Verified Release v1.0.0'}
+                        {currentAudit?.label || 'Nidhogg Verified Release v1.0.0'}
                       </h1>
                       <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
                         Authority:{' '}
-                        <strong>{currentAudit?.repository || '9ja-maxx/DracoSentry'}</strong> · Commit:{' '}
+                        <strong>{currentAudit?.repository || '9ja-maxx/Nidhogg'}</strong> · Commit:{' '}
                         <code style={{ fontFamily: 'var(--font-mono)', color: 'var(--dragon-gold)' }}>
                           {shortenHash(
                             currentAudit?.commit || '1b4fa7cd039c3b62d5444c2b06de19d98f6a0158',
@@ -544,7 +539,7 @@ export default function App() {
                 <input
                   name="label"
                   placeholder="Example: Acme Core Engine v2.4.0"
-                  defaultValue="Draco Production v1.0.0"
+                  defaultValue="Nidhogg Production v1.0.0"
                   required
                 />
               </div>
@@ -556,7 +551,7 @@ export default function App() {
                 </div>
                 <div className="input-field">
                   <label>Repository Name</label>
-                  <input name="repository" placeholder="repository-name" defaultValue="DracoSentry" required />
+                  <input name="repository" placeholder="repository-name" defaultValue="Nidhogg" required />
                 </div>
               </div>
 
@@ -658,7 +653,7 @@ export default function App() {
             </div>
 
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1.5rem' }}>
-              DracoSentry guarantees fail-closed execution across every potential failure mode in software
+              Nidhogg guarantees fail-closed execution across every potential failure mode in software
               supply chain attribution:
             </p>
 
@@ -769,7 +764,7 @@ export default function App() {
 
         {/* Global Notice Banner */}
         <div className="toast-notice">
-          <strong>Sentinel Log:</strong> {statusMessage}
+          <strong>Nidhogg Sentinel Log:</strong> {statusMessage}
         </div>
       </main>
 
@@ -778,7 +773,7 @@ export default function App() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <img src="/draco-logo.svg" alt="logo" style={{ width: '18px', height: '18px' }} />
           <span>
-            DracoSentry Protocol · Developed by <strong>9ja_maxx</strong>
+            Nidhogg Protocol · Developed by <strong>9ja_maxx</strong>
           </span>
         </div>
         <div>

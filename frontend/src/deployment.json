@@ -1,6 +1,6 @@
 {
   "contractAddress": "0x0000000000000000000000000000000000000000",
-  "sourceSha256": "5370425d1e30c7803448b9d0b6f04b09683c70b5a1a69c4bc259efc2aba7b551",
+  "sourceSha256": "ab74fd19738364a3aa118def050764181c9f5baf72d1ee897bcc03f552e4b144",
   "network": "GenLayer StudioNet",
   "chainId": 61997,
   "status": "ready_for_deployment"
