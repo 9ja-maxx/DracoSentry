@@ -1,27 +1,30 @@
 # v0.2.16
 # { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
 """
-DracoSentry Protocol — Autonomous Release Provenance & License Compliance Arbiter
-=================================================================================
-An Intelligent Contract deployed on GenLayer designed to verify that commit-pinned
-third-party attribution notices (e.g., THIRD_PARTY_NOTICES.md) completely and
-accurately satisfy the license obligations of every package declared in a
-Software Bill of Materials (SBOM).
+Nidhogg Protocol — Autonomous Release Provenance & License Compliance Arbiter
+=============================================================================
+Named after the legendary Norse dragon dwelling at the root of the World Tree
+(Yggdrasil), Nidhogg guards the root of the software dependency tree.
 
-Key Architecture Invariants:
-----------------------------
-1. Strict Boundary Ingestion: External callers cannot pass arbitrary URLs.
-   Raw GitHub endpoints are dynamically constructed from validated repository
-   and 40-character Git commit parameters to neutralize SSRF risks.
-2. Cryptographic Digest Gating: Validators fetch raw bytes and independently
-   recompute SHA-256 hashes against maintainer commitments before invoking LLM logic.
-3. Micro-Classification Sandboxing: The AI model is strictly quarantined to
-   outputting structured per-package tokens (COMPLIANT, PERMISSIVE_GAP,
-   COPYLEFT_CONFLICT, UNRESOLVED). The LLM cannot set contract state or final verdicts.
+Deployed as an Intelligent Contract on GenLayer, Nidhogg provides trustless,
+commit-pinned auditing of Software Bill of Materials (SBOM) and third-party
+attribution notices (THIRD_PARTY_NOTICES.md) to eliminate supply-chain tampering
+and phantom compliance declarations.
+
+Architectural Guarantees:
+-------------------------
+1. Zero-Trust Ingestion: Raw GitHub URLs are synthesized in-contract from validated
+   owner, repository, and full 40-character Git commit parameters to prevent SSRF
+   and directory traversal.
+2. Pre-Inference Cryptographic Gating: Validators independently recompute SHA-256
+   hashes of raw file bytes against registered commitments before invoking AI prompts.
+3. Quarantined Micro-Classification: Non-deterministic LLM operations are sandboxed
+   to emitting structured per-package tokens (COMPLIANT, PERMISSIVE_GAP,
+   COPYLEFT_CONFLICT, UNRESOLVED) with strict anti-prompt-injection directives.
 4. Deterministic Precedence: Terminal audit verdicts are derived strictly through
-   deterministic on-chain logic following a strict security priority matrix.
-5. Fail-Closed Consensus: In _consensus, validator nodes independently re-fetch,
-   re-hash, and re-classify, enforcing exact normalized JSON equivalence.
+   on-chain deterministic Python logic.
+5. Independent Validator Equivalence: Validators independently re-fetch, re-hash,
+   and verify normalized JSON equivalence using gl.vm.run_nondet_unsafe.
 """
 
 from genlayer import *
@@ -29,7 +32,7 @@ import hashlib
 import json
 import typing
 
-# Security and operational bounds
+# Security bounds & operational ceilings
 MAX_ARTIFACT_BYTES: int = 32000
 MAX_PACKAGES: int = 12
 MAX_POLICY_LENGTH: int = 1500
@@ -316,10 +319,10 @@ def _derive_audit_verdict(observation: dict) -> str:
     return "VERIFIED_COMPLIANT"
 
 
-class DracoSentry(gl.Contract):
+class Nidhogg(gl.Contract):
     """
-    DracoSentry Intelligent Contract.
-    Manages release commitments, consensus audit evaluations, and immutable remediation links.
+    Nidhogg Intelligent Contract.
+    Guards software release provenance and consensus license compliance attestations.
     """
 
     audit_count: u256

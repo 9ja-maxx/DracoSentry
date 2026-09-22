@@ -1,10 +1,10 @@
 # v0.2.16
 # { "Depends": "py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6" }
 """
-DracoVerifierHook — Downstream Gatekeeper & Compliance Oracle Hook
-==================================================================
-A lightweight smart contract that integrates with DracoSentry to provide
-on-chain gating for decentralized package registries, automated release bounties,
+NidhoggVerifierHook — Downstream Gatekeeper & Compliance Oracle Hook
+====================================================================
+A smart contract hook that integrates with Nidhogg to provide on-chain
+gating for decentralized package registries, automated release bounties,
 and DAO software deployment pipelines.
 
 Downstream protocols query this hook to assert that a given release commit
@@ -16,24 +16,23 @@ import json
 import typing
 
 
-class DracoVerifierHook(gl.Contract):
-    sentry_registry: Address
+class NidhoggVerifierHook(gl.Contract):
+    nidhogg_registry: Address
     certified_releases: TreeMap[str, bool]
 
-    def __init__(self, initial_sentry: Address):
-        self.sentry_registry = initial_sentry
+    def __init__(self, initial_nidhogg: Address):
+        self.nidhogg_registry = initial_nidhogg
 
     @gl.public.view
     def is_release_certified(self, audit_id: u256) -> bool:
         """
-        Query the configured DracoSentry contract to check if a release audit
+        Query the configured Nidhogg contract to check if a release audit
         has achieved terminal VERIFIED_COMPLIANT status.
         """
-        # Call DracoSentry.get_audit_dossier view method
-        dossier_raw = gl.call(self.sentry_registry, "get_audit_dossier", [audit_id])
+        dossier_raw = gl.call(self.nidhogg_registry, "get_audit_dossier", [audit_id])
         if dossier_raw == "NOT_FOUND":
             return False
-        
+
         try:
             dossier = json.loads(dossier_raw)
             return (
@@ -49,7 +48,7 @@ class DracoVerifierHook(gl.Contract):
         """
         Cache a verified release commit hash into the local fast-path registry.
         """
-        dossier_raw = gl.call(self.sentry_registry, "get_audit_dossier", [audit_id])
+        dossier_raw = gl.call(self.nidhogg_registry, "get_audit_dossier", [audit_id])
         if dossier_raw == "NOT_FOUND":
             return "AUDIT_NOT_FOUND"
 
