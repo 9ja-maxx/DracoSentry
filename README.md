@@ -37,29 +37,29 @@ Nidhogg bridges cryptographic data integrity with GenLayer's non-deterministic v
 ```
                                   ╔═════════════════════════════════════════╗
                                   ║            NIDHOGG GUARDIAN             ║
-                                  ║ "The Dragon at the Dependency Root"     ║
+                                  ║  "The Dragon at the Dependency Root"    ║
                                   ╚═════════════════════════════════════════╝
                                                       │
                        ┌──────────────────────────────┴──────────────────────────────┐
                        │                                                             │
                        ▼                                                             ▼
          ┌───────────────────────────┐                                 ┌───────────────────────────┐
-         │     SPDX SBOM MANIFEST    │                                 │     THIRD-PARTY NOTICE    │
-         │   (e.g., release/sbom.json)│                                │ (e.g., THIRD_PARTY_NOTICES)│
+         │     SPDX SBOM MANIFEST    │                                 │    THIRD-PARTY NOTICES    │
+         │  (e.g., release/sbom.json)│                                 │(e.g., THIRD_PARTY_NOTICES)│
          └─────────────┬─────────────┘                                 └─────────────┬─────────────┘
                        │                                                             │
                        └──────────────────────────────┬──────────────────────────────┘
                                                       │
                                                       ▼
                                        ┌─────────────────────────────┐
-                                       │   PHASE I: THE DRAGON'S GAZE │
-                                       │    Zero-Trust URL Ingestion │
+                                       │  PHASE I: THE DRAGON'S GAZE │
+                                       │   Zero-Trust URL Ingestion  │
                                        │ (Commit Pinned / Anti-SSRF) │
                                        └──────────────┬──────────────┘
                                                       │
                                                       ▼
                                        ┌─────────────────────────────┐
-                                       │  PHASE II: SCALES OF TRUTH   │
+                                       │  PHASE II: SCALES OF TRUTH  │
                                        │  Pre-Inference SHA-256 Hash │
                                        │   Bit-Exact Parity Check    │
                                        └──────────────┬──────────────┘
@@ -90,55 +90,59 @@ Nidhogg bridges cryptographic data integrity with GenLayer's non-deterministic v
                                                          │   State: FINALIZED DOSSIER  │
                                                          └──────────────┬──────────────┘
                                                                         │
-                                              ┌─────────────────────────┼─────────────────────────┐
-                                              ▼                         ▼                         ▼
-                                   ╔═══════════════════╗      ╔═══════════════════╗     ╔═══════════════════╗
-                                   ║ VERIFIED COMPLIANT║      ║ATTRIBUTION DEFICIT║     ║ LICENSE VIOLATION ║
-                                   ║   (Score: 100%)   ║      ║ (Permissive Gap)  ║     ║(Copyleft Conflict)║
-                                   ╚═══════════════════╝      ╚═══════════════════╝     ╚═══════════════════╝
+                                               ┌────────────────────────┼────────────────────────┐
+                                               ▼                        ▼                        ▼
+                                    ╔═══════════════════╗     ╔═══════════════════╗    ╔═══════════════════╗
+                                    ║ VERIFIED COMPLIANT║     ║ATTRIBUTION DEFICIT║    ║ LICENSE VIOLATION ║
+                                    ║   (Score: 100%)   ║     ║ (Permissive Gap)  ║    ║(Copyleft Conflict)║
+                                    ╚═══════════════════╝     ╚═══════════════════╝    ╚═══════════════════╝
 ```
 
 ### Protocol Execution Flowchart (Mermaid)
 
 ```mermaid
 flowchart TD
-    classDef dragon fill:#0d131f,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
+    classDef default fill:#0d131f,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
     classDef success fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#f8fafc;
     classDef failure fill:#7f1d1d,stroke:#ef4444,stroke-width:2px,color:#f8fafc;
     classDef warning fill:#78350f,stroke:#f59e0b,stroke-width:2px,color:#f8fafc;
 
-    User([Maintainer / CI Pipeline]):::dragon -->|register_release_audit| Contract[Nidhogg Contract]:::dragon
-    Contract -->|Status: REGISTERED| OnChainState[(GenLayer State Store)]:::dragon
+    User(["Maintainer / CI Pipeline"]) -->|register_release_audit| Contract["Nidhogg Contract"]
+    Contract -->|Status: REGISTERED| OnChainState[("GenLayer State Store")]
 
-    User -->|execute_consensus_assessment| ConsensusEngine[GenLayer Consensus Engine]:::dragon
+    User -->|execute_consensus_assessment| ConsensusEngine["GenLayer Consensus Engine"]
 
-    subgraph Phase1 [Phase 1: In-Contract URL Construction]
-        ConsensusEngine --> URLGen[Derive Raw GitHub URLs<br/>owner + repo + 40-char commit + path]:::dragon
-        URLGen -->|Block Traversal & SSRF| SafeFetch[gl.nondet.web.request]:::dragon
+    subgraph Phase1 ["Phase 1: In-Contract URL Construction"]
+        ConsensusEngine --> URLGen["Derive Raw GitHub URLs<br/>owner + repo + 40-char commit + path"]
+        URLGen -->|Block Traversal and SSRF| SafeFetch["gl.nondet.web.request"]
     end
 
-    subgraph Phase2 [Phase 2: Cryptographic Integrity Gate]
-        SafeFetch --> HashCheck{Recomputed SHA-256<br/>Matches Registered Digest?}:::dragon
-        HashCheck -->|Mismatch| TamperFail[Verdict: TAMPER_DETECTED]:::failure
+    subgraph Phase2 ["Phase 2: Cryptographic Integrity Gate"]
+        SafeFetch --> HashCheck{"Recomputed SHA-256<br/>Matches Registered Digest?"}
+        HashCheck -->|Mismatch| TamperFail["Verdict: TAMPER_DETECTED"]
     end
 
-    subgraph Phase3 [Phase 3: Multi-Validator Consensus]
-        HashCheck -->|Exact Match| LLMEval[Quarantined LLM Classification<br/>Anti-Prompt-Injection Directive]:::dragon
-        LLMEval --> ParseTokens[Pipe Token Parser<br/>COMPLIANT | PERMISSIVE_GAP | COPYLEFT_CONFLICT | UNRESOLVED]:::dragon
-        ParseTokens --> ValidatorCheck{Validator Re-fetch<br/>Matches Leader Normalized JSON?}:::dragon
-        ValidatorCheck -->|Disagreement| ConsFail[Consensus Disagreement Rejected]:::failure
+    subgraph Phase3 ["Phase 3: Multi-Validator Consensus"]
+        HashCheck -->|Exact Match| LLMEval["Quarantined LLM Classification<br/>Anti-Prompt-Injection Directive"]
+        LLMEval --> ParseTokens["Pipe Token Parser<br/>COMPLIANT / PERMISSIVE_GAP / COPYLEFT_CONFLICT / UNRESOLVED"]
+        ParseTokens --> ValidatorCheck{"Validator Re-fetch<br/>Matches Leader Normalized JSON?"}
+        ValidatorCheck -->|Disagreement| ConsFail["Consensus Disagreement Rejected"]
     end
 
-    subgraph Phase4 [Phase 4: Deterministic Verdict Hierarchy]
-        ValidatorCheck -->|Equivalence Confirmed| LogicPrecedence[Deterministic Priority Matrix]:::dragon
-        LogicPrecedence -->|Copyleft Conflict| VerdictConflict[Verdict: HIGH_RISK_LICENSE_VIOLATION]:::failure
-        LogicPrecedence -->|Missing Permissive| VerdictGap[Verdict: ATTRIBUTION_DEFICIT]:::warning
-        LogicPrecedence -->|All Packages Match| VerdictPass[Verdict: VERIFIED_COMPLIANT]:::success
+    subgraph Phase4 ["Phase 4: Deterministic Verdict Hierarchy"]
+        ValidatorCheck -->|Equivalence Confirmed| LogicPrecedence["Deterministic Priority Matrix"]
+        LogicPrecedence -->|Copyleft Conflict| VerdictConflict["Verdict: HIGH_RISK_LICENSE_VIOLATION"]
+        LogicPrecedence -->|Missing Permissive| VerdictGap["Verdict: ATTRIBUTION_DEFICIT"]
+        LogicPrecedence -->|All Packages Match| VerdictPass["Verdict: VERIFIED_COMPLIANT"]
     end
 
-    VerdictPass --> FinalState[Status: FINALIZED<br/>Score: 100% · Immutable Record]:::success
-    VerdictGap --> FinalStateGap[Status: FINALIZED<br/>Remediation Successor Allowed]:::warning
-    VerdictConflict --> FinalStateConflict[Status: FINALIZED<br/>Blocked from Certification]:::failure
+    VerdictPass --> FinalState["Status: FINALIZED<br/>Score: 100% · Immutable Record"]
+    VerdictGap --> FinalStateGap["Status: FINALIZED<br/>Remediation Successor Allowed"]
+    VerdictConflict --> FinalStateConflict["Status: FINALIZED<br/>Blocked from Certification"]
+
+    class TamperFail,ConsFail,VerdictConflict,FinalStateConflict failure;
+    class VerdictGap,FinalStateGap warning;
+    class VerdictPass,FinalState success;
 ```
 
 ---
