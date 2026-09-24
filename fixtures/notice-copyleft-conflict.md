@@ -1,10 +1,10 @@
-# Third-Party Attribution Notices — DracoSentry Release (Copyleft Conflict Test)
+# Third-Party Attribution Notices — Nidhogg Release (Copyleft Conflict Test)
 
 This release incorporates components from the following open-source projects:
 
 ---
 
-## 1. draco-core
+## 1. nidhogg-core
 - **License:** Apache-2.0
 - **Notice:** Licensed under the Apache License, Version 2.0.
 

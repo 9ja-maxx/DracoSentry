@@ -26,8 +26,8 @@
 ## Verified Fixture Commit
 - **Repository:** `9ja-maxx/Nidhogg`
 - **Artifacts:**
-  - `fixtures/sbom-complete.json`: `e5b54ad859fac78d051ef0afd14de452538d8524c6d91d0ffdd1e6530ba74c8a`
-  - `fixtures/notice-complete.md`: `4adb9e2995f93b4ec677f740fa75f2a5c4af0e5044525518ac94d8672608a378`
-  - `fixtures/notice-permissive-gap.md`: `7b7ce26af806d08bd0f96750984f519c33e42444af57d1df0f6d8db542e26b62`
-  - `fixtures/notice-copyleft-conflict.md`: `ae2eb16a748b5c12a3e40b97a7d0003e6094975adfa5240b9fe278ca268a094d`
-  - `fixtures/notice-adversarial-injection.md`: `cd832ae205eba4741bf64661aeab0e1020a9d376b7ce8728a54caef9ed5b6c23`
+  - `fixtures/sbom-complete.json`: `46ded58702fdb3133b7a09e645222101e5093edf24ebc05ec1f5b07fb9062682`
+  - `fixtures/notice-complete.md`: `d3fe15b229bf03d98c37b48fc4d54e046e9709c21fc3d1997b39395f98f0d892`
+  - `fixtures/notice-permissive-gap.md`: `0decbc6717970529c54c51ae081a2c6a89eb6af62ecf730478ed808b30d68eb4`
+  - `fixtures/notice-copyleft-conflict.md`: `a8b641290b70fa37620800bf00b96f708fa86ba5157fc8bb1cd1714ffc123d80`
+  - `fixtures/notice-adversarial-injection.md`: `b710aced28efc4d08efad070592998663d5069bf33ebdda0c639b0e174a03830`

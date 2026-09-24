@@ -2,10 +2,10 @@
   "spdxVersion": "SPDX-2.3",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "name": "dracosentry-release-sbom",
+  "name": "nidhogg-release-sbom",
   "packages": [
     {
-      "name": "draco-core",
+      "name": "nidhogg-core",
       "license": "Apache-2.0"
     },
     {
