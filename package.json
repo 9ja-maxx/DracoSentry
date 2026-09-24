@@ -4,7 +4,7 @@
   "private": true,
   "description": "Nidhogg Protocol — Autonomous Commit-Pinned Provenance & License Compliance Arbiter on GenLayer",
   "scripts": {
-    "build": "npm --prefix frontend run build",
+    "build": "if [ -d \"frontend\" ]; then (cd frontend && npm install && npm run build && cd .. && rm -rf dist && cp -r frontend/dist dist); else npm run build; fi",
     "dev": "npm --prefix frontend run dev",
     "typecheck": "npm --prefix frontend run typecheck"
   },
