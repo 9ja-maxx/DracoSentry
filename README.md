@@ -182,6 +182,7 @@ Terminal verdicts are derived through deterministic on-chain Python logic:
 ## 4. Intelligent Contract Reference
 
 ### Primary Contract: `contracts/Nidhogg.py` (220 LOC)
+- **Deployed Contract Address (StudioNet):** `0x7D5300312Db8dF526ba2F85a876658560e0FCc70`
 - **Target Network:** GenLayer StudioNet (Chain ID: `61997`)
 - **Pinned Runner:** `py-genlayer:1jb45aa8ynh2a9c9xn3b7qqh8sm5q93hwfp7jqmwsfhh8jpz09h6` (v0.2.16)
 - **Source SHA-256:** `ab74fd19738364a3aa118def050764181c9f5baf72d1ee897bcc03f552e4b144`
