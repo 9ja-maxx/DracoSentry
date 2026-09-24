@@ -16,6 +16,9 @@ import {
   Sparkles,
   ShieldCheck,
   RotateCw,
+  LogOut,
+  Copy,
+  Check,
 } from 'lucide-react';
 import deployment from './deployment.json';
 
@@ -100,6 +103,7 @@ export default function App() {
   const [currentAudit, setCurrentAudit] = useState<AuditRecord | null>(null);
   const [totalAuditsOnChain, setTotalAuditsOnChain] = useState<number | null>(null);
   const [walletAccount, setWalletAccount] = useState<string>('');
+  const [copiedAddress, setCopiedAddress] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [statusMessage, setStatusMessage] = useState<string>('Nidhogg Sentinel connected to GenLayer StudioNet.');
 
@@ -159,6 +163,19 @@ export default function App() {
     } catch (err) {
       setStatusMessage(err instanceof Error ? err.message : 'Wallet connection failed');
     }
+  }
+
+  function handleCopyAddress() {
+    if (walletAccount) {
+      void navigator.clipboard.writeText(walletAccount);
+      setCopiedAddress(true);
+      setTimeout(() => setCopiedAddress(false), 2000);
+    }
+  }
+
+  function handleDisconnectWallet() {
+    setWalletAccount('');
+    setStatusMessage('Wallet disconnected.');
   }
 
   // Query cumulative registered audit count from on-chain contract
@@ -297,38 +314,40 @@ export default function App() {
     <div>
       {/* Top Header */}
       <header>
-        <button className="brand-container" onClick={() => setActiveTab('explorer')}>
-          <img src="/nidhogg-logo.svg" alt="Nidhogg Logo" className="brand-logo" />
-          <div>
-            <div className="brand-title">
-              NID<span>HOGG</span>
+        <div className="header-brand-wrap">
+          <button className="brand-container" onClick={() => setActiveTab('explorer')}>
+            <img src="/nidhogg-logo.svg" alt="Nidhogg Logo" className="brand-logo" />
+            <div>
+              <div className="brand-title">
+                NID<span>HOGG</span>
+              </div>
+              <div className="brand-subtitle">Autonomous Supply-Chain Arbiter · GenLayer</div>
             </div>
-            <div className="brand-subtitle">Autonomous Supply-Chain Arbiter · GenLayer</div>
-          </div>
-        </button>
+          </button>
+        </div>
 
-        <div className="header-actions">
-          <nav className="nav-tabs">
-            <button
-              className={activeTab === 'explorer' ? 'active' : ''}
-              onClick={() => setActiveTab('explorer')}
-            >
-              Audit Explorer
-            </button>
-            <button
-              className={activeTab === 'register' ? 'active' : ''}
-              onClick={() => setActiveTab('register')}
-            >
-              Register Release
-            </button>
-            <button
-              className={activeTab === 'matrix' ? 'active' : ''}
-              onClick={() => setActiveTab('matrix')}
-            >
-              Verification Matrix
-            </button>
-          </nav>
+        <nav className="nav-tabs">
+          <button
+            className={activeTab === 'explorer' ? 'active' : ''}
+            onClick={() => setActiveTab('explorer')}
+          >
+            Audit Explorer
+          </button>
+          <button
+            className={activeTab === 'register' ? 'active' : ''}
+            onClick={() => setActiveTab('register')}
+          >
+            Register Release
+          </button>
+          <button
+            className={activeTab === 'matrix' ? 'active' : ''}
+            onClick={() => setActiveTab('matrix')}
+          >
+            Verification Matrix
+          </button>
+        </nav>
 
+        <div className="header-wallet-group">
           <div
             className="network-badge"
             title="Real-time GenLayer StudioNet contract status"
@@ -339,13 +358,45 @@ export default function App() {
             }}
           >
             <span className="pulse-dot"></span>
-            StudioNet · {totalAuditsOnChain === null ? 'Connecting…' : `${totalAuditsOnChain} On-Chain ${totalAuditsOnChain === 1 ? 'Audit' : 'Audits'}`}
+            <span className="network-name">StudioNet</span>
+            <span className="network-pill-sep">·</span>
+            <span className="network-pill-count">
+              {totalAuditsOnChain === null ? 'Syncing…' : `${totalAuditsOnChain} ${totalAuditsOnChain === 1 ? 'Audit' : 'Audits'}`}
+            </span>
           </div>
 
-          <button className="btn-wallet" onClick={handleConnectWallet} disabled={isProcessing}>
-            <Wallet size={16} />
-            {walletAccount ? shortenHash(walletAccount, 6, 4) : 'Connect Wallet'}
-          </button>
+          {walletAccount ? (
+            <div className="wallet-connected-pill" title={`Connected: ${walletAccount}`}>
+              <span className="wallet-connected-dot"></span>
+              <button
+                type="button"
+                className="wallet-address-btn"
+                onClick={handleCopyAddress}
+                title="Click to copy address"
+              >
+                <span className="wallet-address-text">{shortenHash(walletAccount, 6, 4)}</span>
+                {copiedAddress ? <Check size={13} className="text-emerald" /> : <Copy size={13} />}
+              </button>
+              <button
+                type="button"
+                className="wallet-disconnect-btn"
+                onClick={handleDisconnectWallet}
+                title="Disconnect wallet"
+              >
+                <LogOut size={13} />
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="btn-wallet"
+              onClick={handleConnectWallet}
+              disabled={isProcessing}
+            >
+              <Wallet size={15} />
+              <span>Connect Wallet</span>
+            </button>
+          )}
         </div>
       </header>
 
