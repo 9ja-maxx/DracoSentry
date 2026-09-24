@@ -14,6 +14,7 @@
   <a href="#intelligent-contract-architecture"><img src="https://img.shields.io/badge/GenLayer%20Runner-py--genlayer%3Av0.2.16-blue?style=flat-square" alt="Runner" /></a>
   <a href="#threat-model--security-invariants"><img src="https://img.shields.io/badge/Integrity-Pre--Inference%20SHA--256-orange?style=flat-square" alt="Integrity" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-slate?style=flat-square" alt="License" /></a>
+  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F9ja-maxx%2FNidhogg&root-directory=frontend"><img src="https://img.shields.io/badge/Deploy%20to-Vercel-black?style=flat-square&logo=vercel" alt="Deploy to Vercel" /></a>
 </p>
 
 ---
@@ -288,7 +289,25 @@ To deploy Nidhogg on GenLayer StudioNet:
 
 ---
 
-## 8. Author & Attribution
+## 8. Vercel Frontend Deployment
+
+The Nidhogg frontend is optimized for zero-configuration, production-grade deployment on [Vercel](https://vercel.com):
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F9ja-maxx%2FNidhogg&root-directory=frontend)
+
+### Automated 1-Click Deployment
+1. Click the **Deploy with Vercel** button above (or import `https://github.com/9ja-maxx/Nidhogg` into your Vercel Dashboard).
+2. If importing manually:
+   - **Framework Preset:** `Vite`
+   - **Root Directory:** `./` (or `frontend`)
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `frontend/dist` (or `dist` if root directory is set to `frontend`)
+3. The repo includes both a root `vercel.json` and a `frontend/vercel.json` with automatic SPA rewrites, ensuring all direct routes and network refreshes load seamlessly.
+4. The live deployed contract on StudioNet (`0x7D5300312Db8dF526ba2F85a876658560e0FCc70`) is automatically bound via `frontend/src/deployment.json`.
+
+---
+
+## 9. Author & Attribution
 
 - **Protocol Architect:** `9ja_maxx`
 - **Repository:** [`https://github.com/9ja-maxx/Nidhogg`](https://github.com/9ja-maxx/Nidhogg)

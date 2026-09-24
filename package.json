@@ -1,0 +1,12 @@
+{
+  "name": "nidhogg-protocol",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nidhogg Protocol — Autonomous Commit-Pinned Provenance & License Compliance Arbiter on GenLayer",
+  "scripts": {
+    "build": "npm --prefix frontend run build",
+    "dev": "npm --prefix frontend run dev",
+    "typecheck": "npm --prefix frontend run typecheck"
+  },
+  "author": "9ja_maxx"
+}
