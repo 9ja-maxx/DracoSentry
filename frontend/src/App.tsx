@@ -57,8 +57,20 @@ interface AuditRecord {
 const shortenHash = (val: string, start = 8, end = 6) =>
   val && val.length > start + end ? `${val.slice(0, start)}…${val.slice(-end)}` : val;
 
+// Authoritative chain target: locked SDK studionet target synchronized with deployment manifest
+export const authoritativeChain = {
+  ...studionet,
+  id: deployment.chainId,
+  rpcUrls: {
+    ...studionet.rpcUrls,
+    default: {
+      http: deployment.rpcUrl ? [deployment.rpcUrl] : studionet.rpcUrls.default.http,
+    },
+  },
+};
+
 const contractAddress = deployment.contractAddress as `0x${string}`;
-const readerClient = createClient({ chain: studionet });
+const readerClient = createClient({ chain: authoritativeChain });
 type EthereumProvider = NonNullable<Parameters<typeof createClient>[0]>['provider'];
 
 // Authoritative repository commitments from fixtures/FIXTURE_MANIFEST.json
@@ -151,14 +163,37 @@ export default function App() {
       if (!eth) {
         throw new Error('No Web3 wallet detected. Install MetaMask or another Web3 extension.');
       }
-      await eth.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${studionet.id.toString(16)}` }],
-      });
+      try {
+        await eth.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: `0x${authoritativeChain.id.toString(16)}` }],
+        });
+      } catch (switchErr: unknown) {
+        // Fallback to wallet_addEthereumChain if chain is not yet registered in wallet
+        const errObj = switchErr as { code?: number; message?: string };
+        if (errObj?.code === 4902 || errObj?.message?.includes('wallet_addEthereumChain')) {
+          await eth.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+              {
+                chainId: `0x${authoritativeChain.id.toString(16)}`,
+                chainName: authoritativeChain.name,
+                rpcUrls: authoritativeChain.rpcUrls.default.http,
+                nativeCurrency: authoritativeChain.nativeCurrency,
+                blockExplorerUrls: authoritativeChain.blockExplorers?.default?.url
+                  ? [authoritativeChain.blockExplorers.default.url]
+                  : [],
+              },
+            ],
+          });
+        } else {
+          throw switchErr;
+        }
+      }
       const accounts = (await eth.request({ method: 'eth_requestAccounts' })) as string[];
       if (accounts.length > 0) {
         setWalletAccount(accounts[0]);
-        setStatusMessage(`Connected: ${shortenHash(accounts[0], 6, 4)} on StudioNet`);
+        setStatusMessage(`Connected: ${shortenHash(accounts[0], 6, 4)} on ${authoritativeChain.name} (Chain ID: ${authoritativeChain.id})`);
       }
     } catch (err) {
       setStatusMessage(err instanceof Error ? err.message : 'Wallet connection failed');
@@ -245,7 +280,7 @@ export default function App() {
       if (!provider) throw new Error('Web3 provider disconnected.');
 
       const writerClient = createClient({
-        chain: studionet,
+        chain: authoritativeChain,
         account: walletAccount as `0x${string}`,
         provider,
       });
@@ -350,7 +385,7 @@ export default function App() {
         <div className="header-wallet-group">
           <div
             className="network-badge"
-            title="Real-time GenLayer StudioNet contract status"
+            title={`Real-time ${deployment.network} (Chain ID: ${authoritativeChain.id}) contract status`}
             style={{
               borderColor: totalAuditsOnChain !== null && totalAuditsOnChain > 0
                 ? 'rgba(16, 185, 129, 0.4)'
@@ -1065,7 +1100,7 @@ export default function App() {
         </div>
 
         <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-          Contract: <code style={{ color: 'var(--dragon-gold)' }}>{shortenHash(contractAddress, 8, 6)}</code> (StudioNet)
+          Contract: <code style={{ color: 'var(--dragon-gold)' }}>{shortenHash(contractAddress, 8, 6)}</code> (StudioNet · Chain {authoritativeChain.id})
         </div>
       </div>
 

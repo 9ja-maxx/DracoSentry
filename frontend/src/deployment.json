@@ -2,6 +2,7 @@
   "contractAddress": "0x7D5300312Db8dF526ba2F85a876658560e0FCc70",
   "sourceSha256": "ab74fd19738364a3aa118def050764181c9f5baf72d1ee897bcc03f552e4b144",
   "network": "GenLayer StudioNet",
-  "chainId": 61997,
+  "chainId": 61999,
+  "rpcUrl": "https://studio.genlayer.com/api",
   "status": "deployed"
 }

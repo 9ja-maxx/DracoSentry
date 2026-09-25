@@ -25,12 +25,15 @@ def prepare_deployment():
     # Read existing deployment config
     deploy_config = json.loads(DEPLOYMENT_FILE.read_text(encoding="utf-8"))
     deploy_config["sourceSha256"] = source_sha
+    deploy_config["chainId"] = 61999
+    deploy_config["rpcUrl"] = "https://studio.genlayer.com/api"
+    DEPLOYMENT_FILE.write_text(json.dumps(deploy_config, indent=2) + "\n", encoding="utf-8")
 
     print("[*] To deploy on GenLayer Studio:")
     print("    1. Open https://studio.genlayer.com")
     print("    2. Create a new contract file: Nidhogg.py")
     print("    3. Paste the contents of contracts/Nidhogg.py")
-    print("    4. Click 'Deploy' on StudioNet (Chain ID 61997)")
+    print("    4. Click 'Deploy' on StudioNet (Chain ID 61999)")
     print("    5. Copy the deployed contract address and update frontend/src/deployment.json")
     print("=" * 60)
 
